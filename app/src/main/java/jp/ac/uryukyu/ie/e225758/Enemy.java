@@ -9,10 +9,10 @@ package jp.ac.uryukyu.ie.e225758;
  * Created by tnal on 2016/11/13.
  */
 public class Enemy {
-    public String name;
-    public int hitPoint;
-    public int attack;
-    public boolean dead;
+    private String name;
+    private int hitPoint;
+    private int attack;
+    private boolean dead;
 
     /**
      * コンストラクタ。名前、最大HP、攻撃力を指定する。
@@ -20,12 +20,41 @@ public class Enemy {
      * @param maximumHP モンスターのHP
      * @param attack モンスターの攻撃力
      */
-    public Enemy (String name, int maximumHP, int attack) {
-        this.name = name;
-        hitPoint = maximumHP;
-        this.attack = attack;
+
+    public String getName(){
+        return this.name;
+    }
+
+    public int getHitPoint(){
+        return this.hitPoint;
+    }
+
+    public int getAttack(){
+        return this.attack;
+    }
+
+    public boolean Dead_s(){
+        return this.dead;
+    }
+
+    public Enemy (String _name, int _maximumHP, int _attack) {
+        this.setName(_name);
+        this.setHitPoint(_maximumHP);
+        this.setAttack(_attack);
         dead = false;
-        System.out.printf("%sのHPは%d。攻撃力は%dです。\n", name, maximumHP, attack);
+        System.out.printf("%sのHPは%d。攻撃力は%dです。\n", _name, _maximumHP, _attack);
+    }
+
+    public void setName(String _name){
+        this.name = _name;
+    }
+
+    public void setHitPoint(int _maximumHP){
+        this.hitPoint = _maximumHP;
+    }
+
+    public void setAttack(int _attack){
+        this.attack = _attack;
     }
 
     /**
@@ -34,9 +63,13 @@ public class Enemy {
      * @param hero 攻撃対象
      */
     public void attack(Hero hero){
-        int damage = (int)(Math.random() * attack);
-        System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", name, hero.name, damage);
-        hero.wounded(damage);
+        if (this.dead==false){
+            int damage = (int)(Math.random() * this.getAttack());
+            System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", this.getName(), hero.getName(), damage);
+            hero.wounded(damage);
+        }
+        
+        
     }
 
     /**
@@ -45,10 +78,10 @@ public class Enemy {
      * @param damage 受けたダメージ
      */
     public void wounded(int damage){
-        hitPoint -= damage;
+        this.hitPoint -= damage;
         if( hitPoint < 0 ) {
-            dead = true;
-            System.out.printf("モンスター%sは倒れた。\n", name);
+            this.dead = true;
+            System.out.printf("モンスター%sは倒れた。\n", this.getName());
         }
     }
 
